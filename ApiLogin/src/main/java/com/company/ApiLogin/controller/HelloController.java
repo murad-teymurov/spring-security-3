@@ -1,6 +1,8 @@
 package com.company.ApiLogin.controller;
 
+import com.company.ApiLogin.security.UserPrincipal;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,7 +16,7 @@ public class HelloController {
     }
 
     @GetMapping("/secured")
-    public String secured() {
-        return "if you see this, then you are logged in!!";
+    public String secured(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+        return "if you see this, then you are logged in!!" + userPrincipal.getEmail();
     }
 }
