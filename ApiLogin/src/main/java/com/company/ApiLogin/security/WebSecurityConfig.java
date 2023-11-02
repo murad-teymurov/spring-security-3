@@ -29,7 +29,8 @@ public class WebSecurityConfig {
                         httpSecuritySessionManagementConfigurer
                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/", "/auth/login").permitAll()
+                        .requestMatchers("/").permitAll()
+                        .requestMatchers("/auth/login").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form.disable()) // form.permitAll()

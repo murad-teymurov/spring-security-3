@@ -6,14 +6,15 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.Base64;
+
 @Component
 @RequiredArgsConstructor
 public class JwtDecoder {
+    private final JwtProperties properties;
 
-    private final JwtProperties jwtProperties;
-
-    public DecodedJWT decoder(String token) {
-        return JWT.require(Algorithm.HMAC256(jwtProperties.getSecretKey()))
+    public DecodedJWT decode(String token) {
+        return JWT.require(Algorithm.HMAC256(properties.getSecretKey()))
                 .build()
                 .verify(token);
     }
