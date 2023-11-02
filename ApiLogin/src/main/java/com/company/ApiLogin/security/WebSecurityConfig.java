@@ -12,6 +12,24 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.disable())
+                .csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable())
+                .sessionManagement(httpSecuritySessionManagementConfigurer ->
+                        httpSecuritySessionManagementConfigurer
+                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests((requests) -> requests
+                        .requestMatchers("/", "/auth/login").permitAll()
+                        .anyRequest().authenticated()
+                )
+                .formLogin((form) -> form.disable()) // form.permitAll()
+//                .formLogin((form) -> form.defaultSuccessUrl("/login"))
+                .logout((logout) -> logout.disable()); // logout.permitAll()
+
+        return http.build();
+    }
 
 //    @Bean
 //    public SecurityFilterChain applicationSecurity(HttpSecurity http) throws Exception {
@@ -50,19 +68,6 @@ public class WebSecurityConfig {
 //        return http.build();
 //    }
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/", "/home").permitAll()
-                        .anyRequest().authenticated()
-                )
-                .formLogin((form) -> form.disable()
-                )
-                .logout((logout) -> logout.permitAll());
-
-        return http.build();
-    }
 
 //    @Bean
 //    public UserDetailsService userDetailsService() {
