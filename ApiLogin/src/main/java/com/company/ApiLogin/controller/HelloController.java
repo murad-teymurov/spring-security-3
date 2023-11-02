@@ -8,9 +8,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class HelloController {
 
-
     @GetMapping("/")
     public String greeting() {
         return " Hello gradle";
+    }
+
+    @GetMapping("/secured")
+    public String secured() {
+        return "if you see this, then you are logged in!!";
     }
 }
